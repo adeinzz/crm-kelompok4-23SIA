@@ -7,6 +7,7 @@ import MainLayout from './components/MainLayout'
 import Dashboard from './pages/Dashboard'
 import ProductManagement from './pages/ProductManagement'
 
+import CustomerManagement from './pages/CustomerManagement'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route element={<MainLayout />} >
         <Route path="/" element={<Dashboard /> } />
         <Route path="/produk" element={<ProductManagement /> } />
+        <Route path="/customer" element={<CustomerManagement /> } />
         </Route>
       </Routes>
   )
