@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import ProductManagement from './pages/ProductManagement'
 
 import CustomerManagement from './pages/CustomerManagement'
+import SalesManagement from './pages/SalesManagement'
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<Dashboard /> } />
         <Route path="/produk" element={<ProductManagement /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
+        <Route path="/penjualan" element={<SalesManagement /> } />
         </Route>
       </Routes>
   )
