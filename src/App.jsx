@@ -6,6 +6,9 @@ import { Routes, Route } from 'react-router-dom'
 import MainLayout from './components/MainLayout'
 import Dashboard from './pages/Dashboard'
 import ProductManagement from './pages/ProductManagement'
+import SignIn from './pages/SignIn'
+import SignUp from './pages/SignUp'
+
 
 import CustomerManagement from './pages/CustomerManagement'
 import SalesManagement from './pages/SalesManagement'
@@ -19,6 +22,8 @@ function App() {
         <Route path="/produk" element={<ProductManagement /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/penjualan" element={<SalesManagement /> } />
+        <Route path="/signin" element={<SignIn /> } />
+        <Route path="/signup" element={<SignUp /> } />
         </Route>
       </Routes>
   )
