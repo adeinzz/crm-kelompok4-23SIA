@@ -13,6 +13,7 @@ import SignUp from './pages/SignUp'
 import CustomerManagement from './pages/CustomerManagement'
 import SalesManagement from './pages/SalesManagement'
 import ProductGridView from './pages/ProductGridView'
+import CustomerManagement from './pages/CustomerManagement'
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
         <Route path="/signin" element={<SignIn /> } />
         <Route path="/signup" element={<SignUp /> } />
         <Route path="/produk" element={<ProductGridView /> } />
+        <Route path="/customer" element={<CustomerManagement /> } />
+
         </Route>
       </Routes>
   )
