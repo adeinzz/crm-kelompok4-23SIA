@@ -125,7 +125,7 @@ export default function ProductGridView() {
           if (editingProduct) resetForm();
           else setShowForm(!showForm);
         }}
-        className="mb-6 px-4 py-2 bg-blue-400 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-200 transition"
+        className="mb-6 px-4 py-2 bg-[#B38E66] text-white rounded-sm hover:bg-[#a37f58] transition"
       >
         {showForm ? (editingProduct ? "Batal Edit Produk" : "Batal Tambah Produk") : "Tambah Produk"}
       </button>
@@ -185,7 +185,7 @@ export default function ProductGridView() {
           </label>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            className="w-full py-2 bg-[#B38E66] text-white rounded-sm hover:bg-[#a37f58] transition "
           >
             {editingProduct ? "Update Produk" : "Simpan Produk"}
           </button>
