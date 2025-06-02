@@ -1,62 +1,90 @@
 import React, { useState } from "react";
 
-const faqData = [
-  {
-    question: "Apa itu Buttonscarves?",
-    answer:
-      "Buttonscarves adalah brand fashion modest yang menawarkan koleksi hijab, pakaian, dan aksesoris premium dengan desain elegan dan berkualitas tinggi.",
-  },
-  {
-    question: "Bagaimana cara memesan produk Buttonscarves?",
-    answer:
-      "Anda dapat memesan produk melalui website resmi kami di www.buttonscarves.com atau melalui aplikasi resmi Buttonscarves di perangkat mobile Anda.",
-  },
-  {
-    question: "Apakah Buttonscarves menerima pengembalian barang?",
-    answer:
-      "Ya, kami menerima pengembalian barang dalam waktu 7 hari setelah barang diterima, dengan syarat barang belum dipakai dan masih dalam kondisi baik.",
-  },
-  {
-    question: "Apakah tersedia pengiriman internasional?",
-    answer:
-      "Tentu! Buttonscarves melayani pengiriman ke berbagai negara melalui layanan ekspedisi terpercaya.",
-  },
-  {
-    question: "Bagaimana saya mengetahui koleksi terbaru?",
-    answer:
-      "Ikuti akun Instagram resmi kami @buttonscarves dan berlangganan newsletter kami untuk mendapatkan informasi koleksi terbaru, promosi, dan event eksklusif.",
-  },
-];
-
 export default function FAQ() {
+  const [faqData, setFaqData] = useState([
+    {
+      question: "Apa itu Buttonscarves?",
+      answer:
+        "Buttonscarves adalah brand fashion modest yang menawarkan koleksi hijab, pakaian, dan aksesoris premium dengan desain elegan dan berkualitas tinggi.",
+    },
+    {
+      question: "Bagaimana cara memesan produk Buttonscarves?",
+      answer:
+        "Anda dapat memesan produk melalui website resmi kami di www.buttonscarves.com atau melalui aplikasi resmi Buttonscarves di perangkat mobile Anda.",
+    },
+  ]);
+
   const [openIndex, setOpenIndex] = useState(null);
+  const [newFAQ, setNewFAQ] = useState({ question: "", answer: "" });
+  const [editIndex, setEditIndex] = useState(null);
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const handleChange = (e) => {
+    setNewFAQ({ ...newFAQ, [e.target.name]: e.target.value });
+  };
+
+  const handleAdd = () => {
+    if (newFAQ.question && newFAQ.answer) {
+      setFaqData([...faqData, newFAQ]);
+      setNewFAQ({ question: "", answer: "" });
+    }
+  };
+
+  const handleDelete = (index) => {
+    const updated = faqData.filter((_, i) => i !== index);
+    setFaqData(updated);
+    if (openIndex === index) setOpenIndex(null);
+  };
+
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    setNewFAQ(faqData[index]);
+  };
+
+  const handleUpdate = () => {
+    const updated = [...faqData];
+    updated[editIndex] = newFAQ;
+    setFaqData(updated);
+    setNewFAQ({ question: "", answer: "" });
+    setEditIndex(null);
+    setOpenIndex(null);
+  };
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-12 font-sans text-[#333]">
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-          body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #fdfaf7;
-          }
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-fadeIn {
-            animation: fadeIn 0.3s ease-out;
-          }
-        `}
-      </style>
-
       <h1 className="text-4xl font-bold mb-8 text-center text-[#5A3E36]">
-        Frequently Asked Questions
+        FAQ - Frequently Asked Questions
       </h1>
+
+      {/* Form Tambah/Edit */}
+      <div className="mb-8 space-y-4">
+        <input
+          type="text"
+          name="question"
+          value={newFAQ.question}
+          onChange={handleChange}
+          placeholder="Pertanyaan"
+          className="w-full px-4 py-2 border rounded-lg"
+        />
+        <textarea
+          name="answer"
+          value={newFAQ.answer}
+          onChange={handleChange}
+          placeholder="Jawaban"
+          className="w-full px-4 py-2 border rounded-lg"
+        />
+        <button
+          onClick={editIndex !== null ? handleUpdate : handleAdd}
+          className="bg-[#5A3E36] text-white px-4 py-2 rounded hover:bg-[#472e27]"
+        >
+          {editIndex !== null ? "Update FAQ" : "Tambah FAQ"}
+        </button>
+      </div>
+
+      {/* List FAQ */}
       <div className="space-y-4">
         {faqData.map((item, index) => (
           <div
@@ -73,8 +101,22 @@ export default function FAQ() {
               </span>
             </button>
             {openIndex === index && (
-              <div className="px-6 pb-4 text-gray-600 animate-fadeIn">
-                {item.answer}
+              <div className="px-6 pb-4 text-gray-600 animate-fadeIn space-y-2">
+                <p>{item.answer}</p>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => handleEdit(index)}
+                    className="px-3 py-1 text-sm bg-yellow-400 text-white rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="px-3 py-1 text-sm bg-red-500 text-white rounded"
+                  >
+                    Hapus
+                  </button>
+                </div>
               </div>
             )}
           </div>
