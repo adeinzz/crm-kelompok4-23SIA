@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom'
 import MainLayout from './components/MainLayout'
 import Dashboard from './pages/Dashboard'
 import CustomerManagement from './pages/CustomerManagement'
+import ProductGridView from './pages/ProductGridView'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
         <Route element={<MainLayout />} >
         <Route path="/" element={<Dashboard /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
+        <Route path="/produk" element={<ProductGridView /> } />
         </Route>
       </Routes>
   )
