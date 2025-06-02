@@ -12,6 +12,7 @@ import SignUp from './pages/SignUp'
 
 import CustomerManagement from './pages/CustomerManagement'
 import SalesManagement from './pages/SalesManagement'
+import ProductGridView from './pages/ProductGridView'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/penjualan" element={<SalesManagement /> } />
         <Route path="/signin" element={<SignIn /> } />
         <Route path="/signup" element={<SignUp /> } />
+        <Route path="/produk" element={<ProductGridView /> } />
         </Route>
       </Routes>
   )
