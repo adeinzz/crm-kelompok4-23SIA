@@ -21,6 +21,7 @@ const menuItems = [
 ]
 
 const accountItems = [
+  { name: 'FAQ', icon: <Settings />, path: '/faq' },
   { name: 'Pengaturan Akun', icon: <Settings />, path: '/akun' },
 ]
 

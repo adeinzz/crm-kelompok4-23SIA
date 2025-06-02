@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp'
 import SalesManagement from './pages/SalesManagement'
 import ProductGridView from './pages/ProductGridView'
 import CustomerManagement from './pages/CustomerManagement'
+import FAQ from './pages/FAQ'
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
         <Route path="/signup" element={<SignUp /> } />
         <Route path="/produk" element={<ProductGridView /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
-
+        <Route path="/faq" element={<FAQ /> } />
         </Route>
       </Routes>
   )
