@@ -11,6 +11,7 @@ import SalesManagement from './pages/SalesManagement'
 import ProductGridView from './pages/ProductGridView'
 import CustomerManagement from './pages/CustomerManagement'
 import FAQ from './pages/FAQ'
+import MemberStatus from './pages/MemberStatus'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/produk" element={<ProductGridView /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/faq" element={<FAQ /> } />
+        <Route path="/member" element={<MemberStatus /> } />
         </Route>
       </Routes>
   )

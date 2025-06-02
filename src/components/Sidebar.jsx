@@ -1,69 +1,89 @@
-import { BsCartPlusFill } from "react-icons/bs"; 
-import {
-  LayoutDashboard,
-  Users,         // untuk pelanggan
-  ShoppingCart,  // untuk penjualan
-  Box,           // untuk produk
-  BarChart2,     // untuk laporan
-  Settings,      // untuk pengaturan akun
-  User,
-  LogIn,
-  UserPlus,
-} from 'lucide-react'
+import { LayoutDashboard, Users, ShoppingCart, Box, Settings } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
   { name: 'Produk', icon: <Box />, path: '/produk' },
-  
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
 ]
 
 const accountItems = [
+  { name: 'Status Member', icon: <Settings />, path: '/member' },
   { name: 'FAQ', icon: <Settings />, path: '/faq' },
   { name: 'Pengaturan Akun', icon: <Settings />, path: '/akun' },
 ]
 
 const Sidebar = () => {
   const location = useLocation()
-
   const isActive = (path) => location.pathname === path
 
   return (
-    <aside className="bg-white w-64 h-screen shadow-lg px-4 py-6 hidden md:block">
-      <div className="text-xl font-bold mb-8 text-purple-700">BUTTONSCARVES</div>
-      <nav className="space-y-1">
+    <aside
+      className="
+        w-64 h-screen
+        shadow-lg
+        px-6 py-8
+        hidden md:block
+        border-r-4 border-[#B38E66]
+      "
+      style={{
+        backgroundImage:
+          'linear-gradient(to top, #B38E66, #ffffff)',
+      }}
+    >
+      <div
+        className="
+          text-2xl font-extrabold mb-10
+          text-[#B38E66]
+          tracking-widest
+          drop-shadow-sm
+          select-none
+        "
+        style={{ fontFamily: "'Georgia', serif" }}
+      >
+      BUTTONSCARVES
+      </div>
+
+      <nav className="space-y-3">
         {menuItems.map((item) => (
           <Link
             key={item.name}
             to={item.path}
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-purple-100 transition ${
-              isActive(item.path)
-                ? 'bg-purple-200 text-purple-800 font-semibold'
-                : 'text-gray-700'
-            }`}
+            className={`
+              flex items-center gap-4 px-4 py-3 rounded-lg
+              transition
+              ${
+                isActive(item.path)
+                  ? 'bg-[#B38E66] text-white font-semibold shadow-md'
+                  : 'text-[#5A3E36] hover:bg-[#f1e7df] hover:text-[#5A3E36]'
+              }
+            `}
           >
-            <span className="w-5 h-5">{item.icon}</span>
-            {item.name}
+            <span className="w-6 h-6">{item.icon}</span>
+            <span className="text-lg">{item.name}</span>
           </Link>
         ))}
       </nav>
 
-      <div className="mt-8 text-xs font-semibold text-gray-500">AKUN</div>
-      <nav className="mt-2 space-y-1">
+      <div className="mt-12 text-xs font-semibold text-[#5A3E36] tracking-wide">AKUN</div>
+      <nav className="mt-3 space-y-3">
         {accountItems.map((item) => (
           <Link
             key={item.name}
             to={item.path}
-            className={`flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-purple-100 transition ${
-              isActive(item.path)
-                ? 'bg-purple-200 text-purple-800 font-semibold'
-                : 'text-gray-700'
-            }`}
+            className={`
+              flex items-center gap-4 px-4 py-3 rounded-lg
+              transition
+              ${
+                isActive(item.path)
+                  ? 'bg-[#B38E66] text-white font-semibold shadow-md'
+                  : 'text-[#5A3E36] hover:bg-[#f1e7df] hover:text-[#5A3E36]'
+              }
+            `}
           >
-            <span className="w-5 h-5">{item.icon}</span>
-            {item.name}
+            <span className="w-6 h-6">{item.icon}</span>
+            <span className="text-lg">{item.name}</span>
           </Link>
         ))}
       </nav>
