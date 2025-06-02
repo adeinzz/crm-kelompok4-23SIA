@@ -20,7 +20,6 @@ function App() {
       <Routes>
         <Route element={<MainLayout />} >
         <Route path="/" element={<Dashboard /> } />
-        <Route path="/produk" element={<ProductManagement /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/penjualan" element={<SalesManagement /> } />
         <Route path="/signin" element={<SignIn /> } />
