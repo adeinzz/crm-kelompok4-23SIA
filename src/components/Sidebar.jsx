@@ -1,4 +1,5 @@
 import { LayoutDashboard, Users, ShoppingCart, Box, Settings, Contact } from 'lucide-react'
+import { GrOrderedList } from 'react-icons/gr'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
@@ -7,6 +8,7 @@ const menuItems = [
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
+  { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
 ]
 
 const accountItems = [
@@ -26,7 +28,7 @@ const Sidebar = () => {
         shadow-lg
         px-6 py-8
         hidden md:block
-        border-r-4 border-[#B38E66]
+        border-r-5 border-[#B38E66]
       "
       style={{
         backgroundImage:
