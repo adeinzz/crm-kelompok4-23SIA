@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, ShoppingCart, Box, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, ShoppingCart, Box, Settings, Contact } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
@@ -6,6 +6,7 @@ const menuItems = [
   { name: 'Produk', icon: <Box />, path: '/produk' },
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
+  { name: 'Contact Management', icon: <Contact />, path: '/contact' },
 ]
 
 const accountItems = [

@@ -12,6 +12,7 @@ import ProductGridView from './pages/ProductGridView'
 import CustomerManagement from './pages/CustomerManagement'
 import FAQ from './pages/FAQ'
 import MemberStatus from './pages/MemberStatus'
+import ContactManagement from './pages/ContactManajement'
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/faq" element={<FAQ /> } />
         <Route path="/member" element={<MemberStatus /> } />
+        <Route path="/contact" element={<ContactManagement /> } />
         </Route>
       </Routes>
   )
