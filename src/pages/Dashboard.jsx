@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from "react";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -6,11 +7,11 @@ import {
   BarElement,
   LineElement,
   PointElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
-} from 'chart.js'
-import { Bar, Line } from 'react-chartjs-2'
+} from "chart.js";
+import { FaMoneyBillWave, FaBoxOpen, FaUsers, FaStar } from "react-icons/fa";
 
 ChartJS.register(
   CategoryScale,
@@ -18,90 +19,154 @@ ChartJS.register(
   BarElement,
   LineElement,
   PointElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend
-)
+);
 
-const Dashboard = () => {
-  // Data summary cards
-  const stats = [
-    { label: "Pendapatan Hari Ini", value: "$53,000", percent: "+55%", color: "green" },
-    { label: "Pengguna Hari Ini", value: "2,300", percent: "+3%", color: "blue" },
-    { label: "Klien Baru", value: "+3,462", percent: "-2%", color: "red" },
-    { label: "Penjualan", value: "$103,430", percent: "+5%", color: "purple" },
-  ]
+const DashboardButtonscarves = () => {
+  const [mode, setMode] = useState("bulan");
 
-  // Data untuk grafik Penjualan Bulanan (Bar Chart)
-  const barData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+  const penjualanBulanan = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"],
     datasets: [
       {
-        label: "Penjualan (dalam ribuan $)",
-        data: [12, 19, 14, 17, 22, 30, 28, 26, 32, 35, 40, 45],
-        backgroundColor: "rgba(99, 102, 241, 0.7)", // purple-600
+        label: "Penjualan Bulanan (juta Rp)",
+        data: [150, 180, 220, 260, 300, 350],
+        backgroundColor: "#B38E66",
+        borderRadius: 6,
       },
     ],
-  }
+  };
 
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      title: { display: true, text: 'Penjualan Bulanan Tahun Ini' },
-    },
-  }
+  const penjualanMingguan = {
+    labels: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"],
+    datasets: [
+      {
+        label: "Penjualan Mingguan (juta Rp)",
+        data: [25, 30, 28, 35, 33, 40, 38],
+        backgroundColor: "#5A3E36",
+        borderRadius: 6,
+      },
+    ],
+  };
 
-  // Data untuk grafik Pertumbuhan Pelanggan (Line Chart)
-  const lineData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
+  const pelangganData = {
+    labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun"],
     datasets: [
       {
         label: "Jumlah Pelanggan",
-        data: [50, 75, 120, 180, 220, 260, 300, 350, 400, 430, 460, 500],
-        borderColor: "rgba(59, 130, 246, 1)", // blue-500
-        backgroundColor: "rgba(59, 130, 246, 0.3)",
+        data: [200, 260, 310, 400, 520, 640],
         fill: true,
+        backgroundColor: "rgba(179, 142, 102, 0.2)",
+        borderColor: "#B38E66",
         tension: 0.3,
-        pointRadius: 4,
       },
     ],
-  }
+  };
 
-  const lineOptions = {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top' },
-      title: { display: true, text: 'Pertumbuhan Pelanggan Tahun Ini' },
-    },
-  }
+  const kategoriProduk = {
+    labels: ["Hijab", "Outerwear", "Scarf", "Bag"],
+    datasets: [
+      {
+        data: [40, 25, 20, 15],
+        backgroundColor: ["#5A3E36", "#B38E66", "#f3e8dd", "#e0cfc1"],
+        borderColor: "#fff",
+        borderWidth: 2,
+      },
+    ],
+  };
 
   return (
-    <div className="p-6 space-y-8">
-      {/* Statistik utama */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map(({ label, value, percent, color }) => (
-          <div key={label} className="bg-white rounded-xl shadow p-5">
-            <p className="text-sm text-gray-500">{label}</p>
-            <h2 className={`text-2xl font-bold text-${color}-600 flex items-center gap-2`}>
-              {value}
-              <span className={`text-xs font-semibold text-${color}-500`}>{percent}</span>
-            </h2>
+    <div className="bg-gradient-to-br from-[#fef7f1] to-[#fdf7f2] min-h-screen p-8 text-[#5A3E36] font-sans">
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
+        Dashboard Buttonscarves
+      </h1>
+
+      {/* METRICS */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md hover:shadow-xl transition-all flex items-center space-x-4">
+          <FaMoneyBillWave className="text-[#B38E66] text-3xl" />
+          <div>
+            <p className="text-sm text-[#5A3E36]">Total Penjualan</p>
+            <h2 className="text-2xl font-bold">Rp 2.350.000</h2>
           </div>
-        ))}
+        </div>
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md hover:shadow-xl transition-all flex items-center space-x-4">
+          <FaBoxOpen className="text-[#5A3E36] text-3xl" />
+          <div>
+            <p className="text-sm text-[#5A3E36]">Produk Aktif</p>
+            <h2 className="text-2xl font-bold">1.240</h2>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md hover:shadow-xl transition-all flex items-center space-x-4">
+          <FaUsers className="text-[#B38E66] text-3xl" />
+          <div>
+            <p className="text-sm text-[#5A3E36]">Pelanggan Setia</p>
+            <h2 className="text-2xl font-bold">8.750</h2>
+          </div>
+        </div>
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md hover:shadow-xl transition-all flex items-center space-x-4">
+          <FaStar className="text-yellow-400 text-3xl" />
+          <div>
+            <p className="text-sm text-[#5A3E36]">Rating Rata-rata</p>
+            <h2 className="text-2xl font-bold text-yellow-500">4.8 ★</h2>
+          </div>
+        </div>
       </div>
 
-      {/* Grafik Penjualan Bulanan */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <Bar options={barOptions} data={barData} />
+      {/* SWITCH PERFORMA */}
+      <div className="flex justify-center mb-6 space-x-4">
+        <button
+          className={`px-6 py-2 rounded-full text-sm font-semibold shadow-md transition-all duration-200 ${
+            mode === "minggu"
+              ? "bg-[#B38E66] text-white"
+              : "bg-white border border-[#B38E66] text-[#B38E66]"
+          }`}
+          onClick={() => setMode("minggu")}
+        >
+          Performa Minggu Ini
+        </button>
+        <button
+          className={`px-6 py-2 rounded-full text-sm font-semibold shadow-md transition-all duration-200 ${
+            mode === "bulan"
+              ? "bg-[#B38E66] text-white"
+              : "bg-white border border-[#B38E66] text-[#B38E66]"
+          }`}
+          onClick={() => setMode("bulan")}
+        >
+          Performa Bulan Ini
+        </button>
       </div>
 
-      {/* Grafik Pertumbuhan Pelanggan */}
-      <div className="bg-white rounded-xl shadow p-6">
-        <Line options={lineOptions} data={lineData} />
+      {/* GRAFIK */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md">
+          <h3 className="text-lg font-semibold mb-4">
+            {mode === "minggu" ? "Penjualan Mingguan" : "Penjualan Bulanan"}
+          </h3>
+          <Bar data={mode === "minggu" ? penjualanMingguan : penjualanBulanan} />
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Pertumbuhan Pelanggan</h3>
+          <Line data={pelangganData} />
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Kategori Produk Terlaris</h3>
+          <Pie data={kategoriProduk} />
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-[#e0cfc1] shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Detail Penjualan</h3>
+          <p className="text-sm text-[#5A3E36] leading-relaxed">
+            Produk hijab masih menjadi andalan utama Buttonscarves dengan kontribusi sebesar 40% terhadap total penjualan. Outerwear menduduki peringkat kedua dengan 25%, disusul scarf 20%, dan tas 15%. Trend ini menunjukkan bahwa pelanggan masih sangat antusias terhadap produk fashion modest yang elegan dan fungsional.
+          </p>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default DashboardButtonscarves;
