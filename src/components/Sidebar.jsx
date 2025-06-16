@@ -1,41 +1,36 @@
-import { LayoutDashboard, Users, ShoppingCart, Box, Settings, Contact } from 'lucide-react'
-import { GrOrderedList } from 'react-icons/gr'
+import { GrOrderedList } from 'react-icons/gr';
 import {
   LayoutDashboard,
-  Users,         // untuk pelanggan
-  ShoppingCart,  // untuk penjualan
-  Box,           // untuk produk
-  BarChart2,     // untuk laporan
-  Settings,      // untuk pengaturan akun
-  User,
-  LogIn,
-  UserPlus,
-  Inbox,
-} from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+  Users,
+  ShoppingCart,
+  Box,
+  Settings,
+  Contact,
+  Inbox, // pastikan ditambahkan jika digunakan
+} from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
   { name: 'Product Management', icon: <Box />, path: '/produk' },
-  { name: 'Produk', icon: <Box />, path: '/produk' },  
+  { name: 'Produk', icon: <Box />, path: '/produk' },
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Sales Report', icon: <Users />, path: '/sales' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
   { name: 'Case Management', icon: <Inbox />, path: '/case' },
-
-]
+];
 
 const accountItems = [
   { name: 'Status Member', icon: <Settings />, path: '/member' },
   { name: 'FAQ', icon: <Settings />, path: '/faq' },
   { name: 'Pengaturan Akun', icon: <Settings />, path: '/akun' },
-]
+];
 
 const Sidebar = () => {
-  const location = useLocation()
-  const isActive = (path) => location.pathname === path
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
 
   return (
     <aside
@@ -47,8 +42,7 @@ const Sidebar = () => {
         border-r-5 border-[#B38E66]
       "
       style={{
-        backgroundImage:
-          'linear-gradient(to top, #B38E66, #ffffff)',
+        backgroundImage: 'linear-gradient(to top, #B38E66, #ffffff)',
       }}
     >
       <div
@@ -61,7 +55,7 @@ const Sidebar = () => {
         "
         style={{ fontFamily: "'Georgia', serif" }}
       >
-      BUTTONSCARVES
+        BUTTONSCARVES
       </div>
 
       <nav className="space-y-3">
@@ -107,7 +101,7 @@ const Sidebar = () => {
         ))}
       </nav>
     </aside>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
