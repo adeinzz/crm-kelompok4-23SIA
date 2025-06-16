@@ -16,6 +16,7 @@ import ContactManagement from './pages/ContactManajement'
 import OrderManagement from './pages/OrderManagement'
 import SalesReport from './pages/SalesReport'
 import CaseManagement from './pages/CaseManagement'
+import LoyaltyManagement from './pages/LoyaltyManagement'
 
 function App() {
 
@@ -34,6 +35,8 @@ function App() {
         <Route path="/order" element={<OrderManagement /> } />
         <Route path="/sales" element={<SalesReport /> } />
         <Route path="/case" element={<CaseManagement /> } />
+        <Route path="/loyalty" element={<LoyaltyManagement /> } />
+
         </Route>
       </Routes>
   )

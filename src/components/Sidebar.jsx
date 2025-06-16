@@ -1,4 +1,6 @@
 import { GrOrderedList } from 'react-icons/gr';
+import { AiFillStar } from "react-icons/ai"; 
+import { BsCartPlusFill } from "react-icons/bs"; 
 import {
   LayoutDashboard,
   Users,
@@ -20,7 +22,9 @@ const menuItems = [
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
   { name: 'Case Management', icon: <Inbox />, path: '/case' },
+   { name: 'Loyalty Management', icon: <AiFillStar />, path: '/loyalty' },
 ];
+ 
 
 const accountItems = [
   { name: 'Status Member', icon: <Settings />, path: '/member' },
