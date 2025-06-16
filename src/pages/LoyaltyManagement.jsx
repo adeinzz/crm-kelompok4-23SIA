@@ -124,7 +124,7 @@ export default function LoyaltyManagement() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
+    <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
         Loyalty Management Pelanggan
       </h1>

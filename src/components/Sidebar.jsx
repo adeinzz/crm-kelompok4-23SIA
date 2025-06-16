@@ -16,7 +16,6 @@ import { Link, useLocation } from 'react-router-dom';
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
   { name: 'Product Management', icon: <Box />, path: '/produk' },
-  { name: 'Produk', icon: <Box />, path: '/produk' },
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Sales Report', icon: <Users />, path: '/sales' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
@@ -52,7 +51,7 @@ const Sidebar = () => {
     >
       <div
         className="
-          text-2xl font-extrabold mb-10
+          text-1xl font-extrabold mb-10
           text-[#B38E66]
           tracking-widest
           drop-shadow-sm
