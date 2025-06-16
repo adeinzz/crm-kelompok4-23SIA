@@ -15,6 +15,7 @@ import MemberStatus from './pages/MemberStatus'
 import ContactManagement from './pages/ContactManajement'
 import OrderManagement from './pages/OrderManagement'
 import SalesReport from './pages/SalesReport'
+import CaseManagement from './pages/CaseManagement'
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/contact" element={<ContactManagement /> } />
         <Route path="/order" element={<OrderManagement /> } />
         <Route path="/sales" element={<SalesReport /> } />
+        <Route path="/case" element={<CaseManagement /> } />
         </Route>
       </Routes>
   )

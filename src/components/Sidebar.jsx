@@ -1,15 +1,30 @@
 import { LayoutDashboard, Users, ShoppingCart, Box, Settings, Contact } from 'lucide-react'
 import { GrOrderedList } from 'react-icons/gr'
+import {
+  LayoutDashboard,
+  Users,         // untuk pelanggan
+  ShoppingCart,  // untuk penjualan
+  Box,           // untuk produk
+  BarChart2,     // untuk laporan
+  Settings,      // untuk pengaturan akun
+  User,
+  LogIn,
+  UserPlus,
+  Inbox,
+} from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
   { name: 'Product Management', icon: <Box />, path: '/produk' },
+  { name: 'Produk', icon: <Box />, path: '/produk' },  
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Sales Report', icon: <Users />, path: '/sales' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
+  { name: 'Case Management', icon: <Inbox />, path: '/case' },
+
 ]
 
 const accountItems = [
