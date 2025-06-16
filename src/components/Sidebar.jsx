@@ -4,8 +4,9 @@ import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
-  { name: 'Produk', icon: <Box />, path: '/produk' },
+  { name: 'Product Management', icon: <Box />, path: '/produk' },
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
+  { name: 'Sales Report', icon: <Users />, path: '/sales' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },

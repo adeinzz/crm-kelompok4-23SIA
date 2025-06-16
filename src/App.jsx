@@ -14,6 +14,7 @@ import FAQ from './pages/FAQ'
 import MemberStatus from './pages/MemberStatus'
 import ContactManagement from './pages/ContactManajement'
 import OrderManagement from './pages/OrderManagement'
+import SalesReport from './pages/SalesReport'
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/member" element={<MemberStatus /> } />
         <Route path="/contact" element={<ContactManagement /> } />
         <Route path="/order" element={<OrderManagement /> } />
+        <Route path="/sales" element={<SalesReport /> } />
         </Route>
       </Routes>
   )
