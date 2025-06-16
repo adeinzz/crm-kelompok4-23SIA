@@ -39,11 +39,8 @@ export default function EmailCampaign() {
   }
 
   return (
-    <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
-      <h1
-        className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]"
-        style={{ fontFamily: "'Georgia', serif" }}
-      >
+   <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
         Email Campaign
       </h1>
 

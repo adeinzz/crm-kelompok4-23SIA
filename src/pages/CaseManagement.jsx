@@ -39,19 +39,19 @@ export default function CaseManagement() {
     switch (status) {
       case 'selesai':
         return (
-          <span className="inline-flex items-center gap-1 text-green-600 font-semibold text-sm">
+          <span className="inline-flex items-center gap-1 text-green-600 font-medium text-sm">
             <CheckCircle size={16} /> Selesai
           </span>
         )
       case 'ditolak':
         return (
-          <span className="inline-flex items-center gap-1 text-red-500 font-semibold text-sm">
+          <span className="inline-flex items-center gap-1 text-red-500 font-medium text-sm">
             <XCircle size={16} /> Ditolak
           </span>
         )
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-yellow-600 font-semibold text-sm">
+          <span className="inline-flex items-center gap-1 text-yellow-600 font-medium text-sm">
             <Clock size={16} /> Pending
           </span>
         )
@@ -76,35 +76,29 @@ export default function CaseManagement() {
 
   return (
     <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
-      <h1
-        className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]"
-        style={{ fontFamily: "'Georgia', serif" }}
-      >
-        Kelola Case Management
+      <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
+        Case Management
       </h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-md rounded-2xl overflow-hidden text-[#5A3E36] text-sm">
-          <thead className="bg-[#B38E66] text-white" style={{ fontFamily: "'Georgia', serif" }}>
+      <div className="overflow-x-auto bg-white shadow-lg rounded-2xl border border-[#e3d5c4]">
+        <table className="min-w-full divide-y divide-[#e8dccd] text-sm">
+          <thead className="bg-[#fef9f5]">
             <tr>
-              <th className="py-3 px-6 text-left">Nama</th>
-              <th className="py-3 px-6 text-left">Email</th>
-              <th className="py-3 px-6 text-left">Kategori</th>
-              <th className="py-3 px-6 text-left">Pesan & Balasan</th>
-              <th className="py-3 px-6 text-left">Status</th>
-              <th className="py-3 px-6 text-left">Aksi</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Nama</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Email</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Kategori</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Pesan & Balasan</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Status</th>
+              <th className="py-3 px-5 text-center text-[#5A3E36] font-semibold">Aksi</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-[#f3e8dd] text-base">
             {cases.map((c) => (
-              <tr
-                key={c.id}
-                className="border-t hover:bg-[#fdf3ea] transition duration-150 align-top"
-              >
-                <td className="py-4 px-6">{c.nama}</td>
-                <td className="py-4 px-6">{c.email}</td>
-                <td className="py-4 px-6">{c.kategori}</td>
-                <td className="py-4 px-6">
+              <tr key={c.id} className="hover:bg-[#fcf4eb] align-top">
+                <td className="py-4 px-5">{c.nama}</td>
+                <td className="py-4 px-5">{c.email}</td>
+                <td className="py-4 px-5">{c.kategori}</td>
+                <td className="py-4 px-5">
                   <p><strong>Pesan:</strong> {c.pesan}</p>
                   {c.balasan && (
                     <p className="mt-2 text-sm text-green-700">
@@ -112,12 +106,12 @@ export default function CaseManagement() {
                     </p>
                   )}
                 </td>
-                <td className="py-4 px-6">{getStatusBadge(c.status)}</td>
-                <td className="py-4 px-6">
+                <td className="py-4 px-5">{getStatusBadge(c.status)}</td>
+                <td className="py-4 px-5 text-center">
                   {c.status !== 'selesai' && (
                     <button
                       onClick={() => handleSelectCase(c)}
-                      className="flex items-center gap-1 text-[#5A3E36] hover:text-[#a17a54] transition text-sm"
+                      className="flex items-center justify-center gap-1 text-[#A0522D] hover:text-[#7c5030] transition text-sm font-semibold"
                     >
                       <MessageCircleReply size={16} /> Balas
                     </button>
@@ -130,25 +124,21 @@ export default function CaseManagement() {
       </div>
 
       {selectedCase && (
-        <div className="mt-8 p-6 bg-white rounded-2xl shadow-md text-sm text-[#5A3E36]">
-          <h2
-            className="text-xl font-semibold mb-4"
-            style={{ fontFamily: "'Georgia', serif" }}
-          >
-            Balas Pesan dari {selectedCase.nama}
-          </h2>
+        <div className="mt-10 p-6 bg-white rounded-2xl shadow-lg text-sm text-[#5A3E36] border border-[#e3d5c4]">
+          <h2 className="text-xl font-bold mb-4 text-[#A0522D]">Balas Pesan</h2>
+          <p className="mb-1"><strong>Nama:</strong> {selectedCase.nama}</p>
           <p className="mb-1"><strong>Email:</strong> {selectedCase.email}</p>
           <p className="mb-4"><strong>Pesan:</strong> {selectedCase.pesan}</p>
           <textarea
             rows="4"
-            className="w-full p-4 border border-gray-300 rounded-md focus:outline-[#B38E66] focus:ring-1 focus:ring-[#B38E66]"
+            className="w-full p-4 border border-[#e0cfc1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B38E66] text-[#5A3E36]"
             placeholder="Tulis balasan di sini..."
             value={response}
             onChange={(e) => setResponse(e.target.value)}
           ></textarea>
           <button
             onClick={handleSendResponse}
-            className="mt-4 px-6 py-2 bg-[#B38E66] text-white rounded-full hover:bg-[#a17a54] transition font-semibold"
+            className="mt-4 px-6 py-2 bg-[#B38E66] text-white rounded-full hover:bg-[#a07a54] font-semibold transition"
           >
             Kirim Balasan
           </button>
