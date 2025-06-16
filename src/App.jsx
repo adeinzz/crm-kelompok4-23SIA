@@ -7,6 +7,7 @@ import MainLayout from './components/MainLayout'
 import Dashboard from './pages/Dashboard'
 import CustomerManagement from './pages/CustomerManagement'
 import ProductGridView from './pages/ProductGridView'
+import CaseManagement from './pages/CaseManagement'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Dashboard /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/produk" element={<ProductGridView /> } />
+        <Route path="/case" element={<CaseManagement /> } />
         </Route>
       </Routes>
   )

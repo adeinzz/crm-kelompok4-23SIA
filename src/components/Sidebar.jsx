@@ -8,16 +8,17 @@ import {
   User,
   LogIn,
   UserPlus,
+  Inbox,
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
 const menuItems = [
   { name: 'Dashboard', icon: <LayoutDashboard />, path: '/' },
-  { name: 'Produk', icon: <Box />, path: '/produk' },
-  { name: 'Laporan', icon: <BarChart2 />, path: '/laporan' },
-  
+  { name: 'Produk', icon: <Box />, path: '/produk' },  
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
+  { name: 'Case Management', icon: <Inbox />, path: '/case' },
+
 ]
 
 const accountItems = [
