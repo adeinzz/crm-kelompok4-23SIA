@@ -8,7 +8,8 @@ import {
   Box,
   Settings,
   Contact,
-  Inbox, // pastikan ditambahkan jika digunakan
+  Inbox,
+  Mail, // pastikan ditambahkan jika digunakan
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -23,8 +24,8 @@ const menuItems = [
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
   { name: 'Case Management', icon: <Inbox />, path: '/case' },
    { name: 'Loyalty Management', icon: <AiFillStar />, path: '/loyalty' },
+   { name: 'EmailCampaign', icon: <Mail />, path: '/emailCamp' },
 ];
- 
 
 const accountItems = [
   { name: 'Status Member', icon: <Settings />, path: '/member' },
