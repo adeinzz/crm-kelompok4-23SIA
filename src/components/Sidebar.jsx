@@ -1,3 +1,4 @@
+import { AiFillStar } from "react-icons/ai"; 
 import { BsCartPlusFill } from "react-icons/bs"; 
 import {
   LayoutDashboard,
@@ -19,6 +20,7 @@ const menuItems = [
   
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
+  { name: 'Loyalty Management', icon: <AiFillStar />, path: '/loyalty' },
 ]
 
 const accountItems = [

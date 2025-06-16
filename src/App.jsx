@@ -7,6 +7,7 @@ import MainLayout from './components/MainLayout'
 import Dashboard from './pages/Dashboard'
 import SalesManagement from './pages/SalesManagement'
 import CustomerManagement from './pages/CustomerManagement'
+import LoyaltyManagement from './pages/LoyaltyManagement'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Dashboard /> } />
         <Route path="/penjualan" element={<SalesManagement /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
+        <Route path="/loyalty" element={<LoyaltyManagement /> } />
 
         </Route>
       </Routes>
