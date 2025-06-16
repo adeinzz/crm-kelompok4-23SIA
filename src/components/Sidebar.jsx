@@ -9,6 +9,7 @@ import {
   LogIn,
   UserPlus,
   Inbox,
+  Mail,
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -18,6 +19,7 @@ const menuItems = [
   { name: 'Pelanggan', icon: <Users />, path: '/customer' },
   { name: 'Penjualan', icon: <ShoppingCart />, path: '/penjualan' },
   { name: 'Case Management', icon: <Inbox />, path: '/case' },
+  { name: 'EmailCampaign', icon: <Mail />, path: '/emailCamp' },
 
 ]
 

@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard'
 import CustomerManagement from './pages/CustomerManagement'
 import ProductGridView from './pages/ProductGridView'
 import CaseManagement from './pages/CaseManagement'
+import EmailCampaign from './pages/EmailCampaign'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/customer" element={<CustomerManagement /> } />
         <Route path="/produk" element={<ProductGridView /> } />
         <Route path="/case" element={<CaseManagement /> } />
+        <Route path="/emailCamp" element={<EmailCampaign /> } />
         </Route>
       </Routes>
   )
