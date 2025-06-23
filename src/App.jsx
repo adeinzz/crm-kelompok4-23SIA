@@ -18,6 +18,7 @@ import SalesReport from './pages/SalesReport'
 import CaseManagement from './pages/CaseManagement'
 import LoyaltyManagement from './pages/LoyaltyManagement'
 import EmailCampaign from './pages/EmailCampaign'
+import User from './pages/User'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/sales" element={<SalesReport /> } />
         <Route path="/case" element={<CaseManagement /> } />
         <Route path="/loyalty" element={<LoyaltyManagement /> } />
+        <Route path="/user" element={<User /> } />
 
         <Route path="/emailCamp" element={<EmailCampaign /> } />
         </Route>

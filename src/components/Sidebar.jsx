@@ -9,7 +9,8 @@ import {
   Settings,
   Contact,
   Inbox,
-  Mail, // pastikan ditambahkan jika digunakan
+  Mail,
+  User, // pastikan ditambahkan jika digunakan
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -22,6 +23,7 @@ const menuItems = [
   { name: 'Contact Management', icon: <Contact />, path: '/contact' },
   { name: 'Order Management', icon: <GrOrderedList />, path: '/order' },
   { name: 'Case Management', icon: <Inbox />, path: '/case' },
+  { name: 'User', icon: <User />, path: '/user' },
    { name: 'Loyalty Management', icon: <AiFillStar />, path: '/loyalty' },
    { name: 'EmailCampaign', icon: <Mail />, path: '/emailCamp' },
 ];
