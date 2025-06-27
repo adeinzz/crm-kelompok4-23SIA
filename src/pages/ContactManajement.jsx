@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "../supabase";
 
 export default function ContactManagement() {
   const [contacts, setContacts] = useState([]);
@@ -12,20 +13,20 @@ export default function ContactManagement() {
   });
 
   useEffect(() => {
-    const dummyContacts = [
-      { id: 1, name: "Andi Pratama", email: "andi@mail.com", phone: "081234560001", status: "Aktif" },
-      { id: 2, name: "Budi Santoso", email: "budi@mail.com", phone: "081234560002", status: "Tidak Aktif" },
-      { id: 3, name: "Citra Lestari", email: "citra@mail.com", phone: "081234560003", status: "Aktif" },
-      { id: 4, name: "Dewi Anggraini", email: "dewi@mail.com", phone: "081234560004", status: "Aktif" },
-      { id: 5, name: "Eko Nugroho", email: "eko@mail.com", phone: "081234560005", status: "Tidak Aktif" },
-      { id: 6, name: "Fajar Hidayat", email: "fajar@mail.com", phone: "081234560006", status: "Aktif" },
-      { id: 7, name: "Gita Permata", email: "gita@mail.com", phone: "081234560007", status: "Tidak Aktif" },
-      { id: 8, name: "Hendra Wijaya", email: "hendra@mail.com", phone: "081234560008", status: "Aktif" },
-      { id: 9, name: "Intan Sari", email: "intan@mail.com", phone: "081234560009", status: "Aktif" },
-      { id: 10, name: "Joko Susanto", email: "joko@mail.com", phone: "081234560010", status: "Tidak Aktif" }
-    ];
-    setContacts(dummyContacts);
+    fetchContacts();
   }, []);
+
+  const fetchContacts = async () => {
+    const { data, error } = await supabase
+      .from("contacts")
+      .select("*")
+      .order("id", { ascending: true });
+    if (error) {
+      console.error("Gagal mengambil data:", error);
+    } else {
+      setContacts(data);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,40 +36,54 @@ export default function ContactManagement() {
     }));
   };
 
-  const handleAddOrUpdateContact = () => {
+  const handleAddOrUpdateContact = async () => {
     if (!formData.name || !formData.email || !formData.phone) {
       alert("Semua kolom harus diisi");
       return;
     }
 
     if (editId !== null) {
-      setContacts(
-        contacts.map((c) =>
-          c.id === editId ? { ...c, ...formData } : c
-        )
-      );
+      const { error } = await supabase
+        .from("contacts")
+        .update(formData)
+        .eq("id", editId);
+
+      if (error) {
+        console.error("Gagal update:", error);
+      }
     } else {
-      const newContact = {
-        ...formData,
-        id: contacts.length + 1,
-      };
-      setContacts([...contacts, newContact]);
+      const { error } = await supabase.from("contacts").insert([formData]);
+
+      if (error) {
+        console.error("Gagal insert:", error);
+      }
     }
 
     setFormData({ name: "", email: "", phone: "", status: "Aktif" });
     setEditId(null);
     setShowForm(false);
+    fetchContacts();
   };
 
   const handleEdit = (contact) => {
-    setFormData(contact);
+    setFormData({
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+      status: contact.status,
+    });
     setEditId(contact.id);
     setShowForm(true);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Yakin ingin menghapus data pelanggan ini?")) {
-      setContacts(contacts.filter((c) => c.id !== id));
+      const { error } = await supabase.from("contacts").delete().eq("id", id);
+
+      if (error) {
+        console.error("Gagal hapus:", error);
+      }
+      fetchContacts();
     }
   };
 

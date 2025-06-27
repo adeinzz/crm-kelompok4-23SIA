@@ -19,6 +19,8 @@ import CaseManagement from './pages/CaseManagement'
 import LoyaltyManagement from './pages/LoyaltyManagement'
 import EmailCampaign from './pages/EmailCampaign'
 import User from './pages/User'
+import UserLayout from './components/UserLayout'
+import Halaman from './pages/Halaman'
 
 function App() {
 
@@ -41,6 +43,9 @@ function App() {
         <Route path="/user" element={<User /> } />
 
         <Route path="/emailCamp" element={<EmailCampaign /> } />
+        </Route>
+        <Route element={<UserLayout />} >
+        <Route path="/halaman" element={<Halaman /> } />
         </Route>
       </Routes>
   )
