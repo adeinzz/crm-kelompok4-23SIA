@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { supabase } from '../supabase'
 
 // Simulasi daftar pelanggan
 const daftarEmailPelanggan = [
@@ -15,31 +16,64 @@ export default function EmailCampaign() {
   const [isi, setIsi] = useState('')
   const [kategori, setKategori] = useState('Promo')
 
-  const handleKirim = () => {
+  useEffect(() => {
+    fetchCampaigns()
+
+    const interval = setInterval(() => {
+      fetchCampaigns()
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const fetchCampaigns = async () => {
+    const { data, error } = await supabase
+      .from('email_campaigns')
+      .select('*')
+      .order('id', { ascending: false })
+
+    if (error) {
+      console.error(error)
+    } else {
+      setCampaigns(data)
+    }
+  }
+
+  const handleKirim = async () => {
     if (!judul || !isi) return alert('Judul dan isi email harus diisi.')
 
     // Simulasi pengiriman email ke seluruh manajemen
     daftarEmailPelanggan.forEach((email) => {
-      console.log(`📤 Email dikirim ke: ${email}\nJudul: ${judul}\nIsi: ${isi}\n---`)
+      console.log(
+        `📤 Email dikirim ke: ${email}\nJudul: ${judul}\nIsi: ${isi}\n---`
+      )
     })
 
     const newCampaign = {
-      id: Date.now(),
       judul,
       isi,
       kategori,
       tanggal: new Date().toLocaleString(),
     }
 
-    setCampaigns([newCampaign, ...campaigns])
-    setJudul('')
-    setIsi('')
-    setKategori('Promo')
-    alert('Email berhasil dikirim ke seluruh manajemen.')
+    const { error } = await supabase
+      .from('email_campaigns')
+      .insert([newCampaign])
+
+    if (error) {
+      console.error(error)
+      alert('Gagal mengirim email.')
+    } else {
+      setJudul('')
+      setIsi('')
+      setKategori('Promo')
+      alert('Email berhasil dikirim ke seluruh manajemen.')
+      fetchCampaigns()
+    }
   }
 
   return (
-   <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
+    <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
         Email Campaign
       </h1>
@@ -47,7 +81,9 @@ export default function EmailCampaign() {
       {/* Form Campaign */}
       <div className="bg-white p-6 rounded-xl shadow-md mb-8">
         <div className="mb-4">
-          <label className="block text-[#5A3E36] font-semibold mb-1">Judul Email</label>
+          <label className="block text-[#5A3E36] font-semibold mb-1">
+            Judul Email
+          </label>
           <input
             type="text"
             value={judul}
@@ -57,7 +93,9 @@ export default function EmailCampaign() {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-[#5A3E36] font-semibold mb-1">Kategori</label>
+          <label className="block text-[#5A3E36] font-semibold mb-1">
+            Kategori
+          </label>
           <select
             value={kategori}
             onChange={(e) => setKategori(e.target.value)}
@@ -68,7 +106,9 @@ export default function EmailCampaign() {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-[#5A3E36] font-semibold mb-1">Isi Email</label>
+          <label className="block text-[#5A3E36] font-semibold mb-1">
+            Isi Email
+          </label>
           <textarea
             rows="6"
             value={isi}
@@ -108,7 +148,9 @@ export default function EmailCampaign() {
                 <td className="py-4 px-6 font-semibold">{item.judul}</td>
                 <td className="py-4 px-6">{item.kategori}</td>
                 <td className="py-4 px-6">{item.isi}</td>
-                <td className="py-4 px-6 text-sm text-gray-600">{item.tanggal}</td>
+                <td className="py-4 px-6 text-sm text-gray-600">
+                  {item.tanggal}
+                </td>
               </tr>
             ))}
           </tbody>

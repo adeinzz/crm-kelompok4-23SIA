@@ -1,39 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { supabase } from '../supabase'
 import { CheckCircle, Clock, XCircle, MessageCircleReply } from 'lucide-react'
 
 export default function CaseManagement() {
-  const [cases, setCases] = useState([
-    {
-      id: 1,
-      nama: 'Lidya Rahmawati',
-      email: 'lidya@example.com',
-      kategori: 'Komplain',
-      pesan: 'Barang datang terlambat dan kemasan rusak.',
-      status: 'pending',
-      balasan: '',
-    },
-    {
-      id: 2,
-      nama: 'Rina Kusuma',
-      email: 'rina@example.com',
-      kategori: 'Pertanyaan',
-      pesan: 'Apakah produk A akan restock bulan ini?',
-      status: 'selesai',
-      balasan: 'Produk A akan restock minggu depan.',
-    },
-    {
-      id: 3,
-      nama: 'Dewi Aulia',
-      email: 'dewi@example.com',
-      kategori: 'Lainnya',
-      pesan: 'Saya ingin mengganti alamat pengiriman.',
-      status: 'ditolak',
-      balasan: '',
-    },
-  ])
-
+  const [cases, setCases] = useState([])
   const [selectedCase, setSelectedCase] = useState(null)
   const [response, setResponse] = useState('')
+
+  useEffect(() => {
+    fetchCases()
+
+    // Refresh data setiap 5 detik
+    const interval = setInterval(() => {
+      fetchCases()
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  const fetchCases = async () => {
+    const { data, error } = await supabase
+      .from('cases')
+      .select('*')
+      .order('id', { ascending: true })
+
+    console.log('DATA DARI SUPABASE:', data)
+    console.log('ERROR DARI SUPABASE:', error)
+
+    if (error) {
+      console.error('Gagal fetch data:', error)
+    } else {
+      setCases(data)
+    }
+  }
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -63,15 +62,27 @@ export default function CaseManagement() {
     setResponse(caseData.balasan || '')
   }
 
-  const handleSendResponse = () => {
-    const updatedCases = cases.map((c) =>
-      c.id === selectedCase.id
-        ? { ...c, balasan: response, status: 'selesai' }
-        : c
-    )
-    setCases(updatedCases)
-    setSelectedCase(null)
-    setResponse('')
+  const handleSendResponse = async () => {
+    if (!response.trim()) {
+      alert('Balasan tidak boleh kosong.')
+      return
+    }
+
+    const { error } = await supabase
+      .from('cases')
+      .update({
+        balasan: response,
+        status: 'selesai'
+      })
+      .eq('id', selectedCase.id)
+
+    if (error) {
+      console.error('Gagal mengirim balasan:', error)
+    } else {
+      fetchCases()
+      setSelectedCase(null)
+      setResponse('')
+    }
   }
 
   return (
@@ -84,12 +95,24 @@ export default function CaseManagement() {
         <table className="min-w-full divide-y divide-[#e8dccd] text-sm">
           <thead className="bg-[#fef9f5]">
             <tr>
-              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Nama</th>
-              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Email</th>
-              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Kategori</th>
-              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Pesan & Balasan</th>
-              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">Status</th>
-              <th className="py-3 px-5 text-center text-[#5A3E36] font-semibold">Aksi</th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">
+                Nama
+              </th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">
+                Email
+              </th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">
+                Kategori
+              </th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">
+                Pesan & Balasan
+              </th>
+              <th className="py-3 px-5 text-left text-[#5A3E36] font-semibold">
+                Status
+              </th>
+              <th className="py-3 px-5 text-center text-[#5A3E36] font-semibold">
+                Aksi
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#f3e8dd] text-base">
@@ -99,7 +122,9 @@ export default function CaseManagement() {
                 <td className="py-4 px-5">{c.email}</td>
                 <td className="py-4 px-5">{c.kategori}</td>
                 <td className="py-4 px-5">
-                  <p><strong>Pesan:</strong> {c.pesan}</p>
+                  <p>
+                    <strong>Pesan:</strong> {c.pesan}
+                  </p>
                   {c.balasan && (
                     <p className="mt-2 text-sm text-green-700">
                       <strong>Balasan Admin:</strong> {c.balasan}
@@ -119,16 +144,35 @@ export default function CaseManagement() {
                 </td>
               </tr>
             ))}
+
+            {cases.length === 0 && (
+              <tr>
+                <td
+                  colSpan="6"
+                  className="py-6 text-center text-[#B38E66] italic"
+                >
+                  Belum ada data case.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
       {selectedCase && (
         <div className="mt-10 p-6 bg-white rounded-2xl shadow-lg text-sm text-[#5A3E36] border border-[#e3d5c4]">
-          <h2 className="text-xl font-bold mb-4 text-[#A0522D]">Balas Pesan</h2>
-          <p className="mb-1"><strong>Nama:</strong> {selectedCase.nama}</p>
-          <p className="mb-1"><strong>Email:</strong> {selectedCase.email}</p>
-          <p className="mb-4"><strong>Pesan:</strong> {selectedCase.pesan}</p>
+          <h2 className="text-xl font-bold mb-4 text-[#A0522D]">
+            Balas Pesan
+          </h2>
+          <p className="mb-1">
+            <strong>Nama:</strong> {selectedCase.nama}
+          </p>
+          <p className="mb-1">
+            <strong>Email:</strong> {selectedCase.email}
+          </p>
+          <p className="mb-4">
+            <strong>Pesan:</strong> {selectedCase.pesan}
+          </p>
           <textarea
             rows="4"
             className="w-full p-4 border border-[#e0cfc1] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#B38E66] text-[#5A3E36]"

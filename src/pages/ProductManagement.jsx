@@ -14,93 +14,88 @@ export default function ProductManagement() {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
-    price: "",
     image_url: "",
+    stock: "",
+    price: "",
+    active: true,
   });
-  const [editId, setEditId] = useState(null);
-
-  // ✅ Ambil data dari Supabase
-  const fetchProducts = async () => {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .order("id", { ascending: true });
-    if (error) console.error(error);
-    else setProducts(data);
-  };
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
-  // ✅ Handle perubahan input
+  const fetchProducts = async () => {
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("id", { ascending: true });
+
+    if (error) console.error(error.message);
+    else setProducts(data);
+  };
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  // ✅ Tambah atau update produk
-  const handleSaveProduct = async () => {
-    if (!formData.name || !formData.category || !formData.price || !formData.image_url) {
+  const handleAddProduct = async () => {
+    if (
+      !formData.name ||
+      !formData.category ||
+      formData.stock === "" ||
+      formData.price === ""
+    ) {
       alert("Semua kolom harus diisi");
       return;
     }
 
-    if (editId) {
-      // Update
-      const { error } = await supabase
-        .from("products")
-        .update({
-          name: formData.name,
-          category: formData.category,
-          price: parseFloat(formData.price),
-          image_url: formData.image_url,
-        })
-        .eq("id", editId);
-      if (error) console.error(error);
+    const payload = {
+      name: formData.name,
+      category: formData.category,
+      image_url: formData.image_url || null,
+      stock: parseInt(formData.stock),
+      price: parseFloat(formData.price),
+      active: formData.active,
+    };
+
+    const { error } = await supabase
+      .from("products")
+      .insert([payload]);
+
+    if (error) {
+      console.error(error.message);
+      alert("Gagal menyimpan produk: " + error.message);
     } else {
-      // Insert
-      const { error } = await supabase.from("products").insert([
-        {
-          name: formData.name,
-          category: formData.category,
-          price: parseFloat(formData.price),
-          image_url: formData.image_url,
-        },
-      ]);
-      if (error) console.error(error);
+      alert("Produk berhasil disimpan");
+      fetchProducts();
+      setFormData({
+        name: "",
+        category: "",
+        image_url: "",
+        stock: "",
+        price: "",
+        active: true,
+      });
+      setShowForm(false);
     }
-
-    setFormData({ name: "", category: "", price: "", image_url: "" });
-    setEditId(null);
-    setShowForm(false);
-    fetchProducts();
   };
 
-  // ✅ Edit produk
-  const handleEdit = (product) => {
-    setFormData({
-      name: product.name,
-      category: product.category,
-      price: product.price,
-      image_url: product.image_url,
-    });
-    setEditId(product.id);
-    setShowForm(true);
-  };
-
-  // ✅ Hapus produk
   const handleDelete = async (id) => {
     if (window.confirm("Yakin ingin menghapus produk ini?")) {
       const { error } = await supabase
         .from("products")
         .delete()
         .eq("id", id);
-      if (error) console.error(error);
-      fetchProducts();
+
+      if (error) {
+        console.error(error.message);
+      } else {
+        fetchProducts();
+      }
     }
   };
 
@@ -109,14 +104,10 @@ export default function ProductManagement() {
       <h1 className="text-2xl font-semibold mb-4">Manajemen Produk</h1>
 
       <button
-        onClick={() => {
-          setShowForm((prev) => !prev);
-          setFormData({ name: "", category: "", price: "", image_url: "" });
-          setEditId(null);
-        }}
+        onClick={() => setShowForm((prev) => !prev)}
         className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
       >
-        {showForm ? "Batal" : "Tambah Produk"}
+        {showForm ? "Batal Tambah Produk" : "Tambah Produk"}
       </button>
 
       {showForm && (
@@ -128,7 +119,7 @@ export default function ProductManagement() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:ring-indigo-400 focus:outline-none"
+              className="w-full px-3 py-2 border rounded"
               placeholder="Masukkan nama produk"
             />
           </div>
@@ -139,8 +130,30 @@ export default function ProductManagement() {
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:ring-indigo-400 focus:outline-none"
+              className="w-full px-3 py-2 border rounded"
               placeholder="Contoh: Elektronik"
+            />
+          </div>
+          <div className="mb-2">
+            <label className="block mb-1 font-medium">URL Gambar</label>
+            <input
+              type="text"
+              name="image_url"
+              value={formData.image_url}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+              placeholder="https://..."
+            />
+          </div>
+          <div className="mb-2">
+            <label className="block mb-1 font-medium">Stok</label>
+            <input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded"
+              min="0"
             />
           </div>
           <div className="mb-2">
@@ -150,27 +163,27 @@ export default function ProductManagement() {
               name="price"
               value={formData.price}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:ring-indigo-400 focus:outline-none"
+              className="w-full px-3 py-2 border rounded"
               min="0"
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-1 font-medium">URL Gambar</label>
-            <input
-              type="text"
-              name="image_url"
-              value={formData.image_url}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:ring-indigo-400 focus:outline-none"
-              placeholder="Contoh: https://..."
-            />
+            <label className="inline-flex items-center">
+              <input
+                type="checkbox"
+                name="active"
+                checked={formData.active}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Tersedia
+            </label>
           </div>
-
           <button
-            onClick={handleSaveProduct}
+            onClick={handleAddProduct}
             className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
           >
-            {editId ? "Update Produk" : "Simpan Produk"}
+            Simpan Produk
           </button>
         </div>
       )}
@@ -181,8 +194,10 @@ export default function ProductManagement() {
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nama</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Kategori</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Gambar</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Stok</th>
               <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Harga</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Gambar</th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Status</th>
               <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Aksi</th>
             </tr>
           </thead>
@@ -191,18 +206,30 @@ export default function ProductManagement() {
               <tr key={product.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4">{product.name}</td>
                 <td className="px-6 py-4">{product.category}</td>
+                <td className="px-6 py-4">
+                  {product.image_url ? (
+                    <img src={product.image_url} alt={product.name} className="w-16 h-16 object-cover rounded" />
+                  ) : (
+                    <span className="text-gray-400 italic">-</span>
+                  )}
+                </td>
+                <td className="px-6 py-4 text-right">{product.stock}</td>
                 <td className="px-6 py-4 text-right">{formatCurrency(product.price)}</td>
                 <td className="px-6 py-4 text-center">
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="h-16 mx-auto rounded object-cover"
-                  />
+                  {product.active ? (
+                    <span className="inline-block px-2 py-1 text-xs text-green-800 bg-green-100 rounded">
+                      Tersedia
+                    </span>
+                  ) : (
+                    <span className="inline-block px-2 py-1 text-xs text-gray-600 bg-gray-200 rounded">
+                      Habis
+                    </span>
+                  )}
                 </td>
                 <td className="px-6 py-4 text-center space-x-2">
                   <button
                     className="text-indigo-600 hover:text-indigo-900"
-                    onClick={() => handleEdit(product)}
+                    onClick={() => alert("Fitur Edit belum tersedia")}
                   >
                     Edit
                   </button>
@@ -217,7 +244,7 @@ export default function ProductManagement() {
             ))}
             {products.length === 0 && (
               <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-500">
+                <td colSpan="7" className="text-center py-4 text-gray-500">
                   Tidak ada produk tersedia.
                 </td>
               </tr>

@@ -10,7 +10,6 @@ import SignUp from './pages/SignUp'
 import SalesManagement from './pages/SalesManagement'
 import ProductGridView from './pages/ProductGridView'
 import CustomerManagement from './pages/CustomerManagement'
-import FAQ from './pages/FAQ'
 import MemberStatus from './pages/MemberStatus'
 import ContactManagement from './pages/ContactManajement'
 import OrderManagement from './pages/OrderManagement'
@@ -20,20 +19,25 @@ import LoyaltyManagement from './pages/LoyaltyManagement'
 import EmailCampaign from './pages/EmailCampaign'
 import User from './pages/User'
 import UserLayout from './components/UserLayout'
-import Halaman from './pages/Halaman'
+import FeedbackUser from './pages/FeedbackUser'
+import FAQUser from './pages/FAQUser'
+import FAQAdmin from './pages/FAQAdmin'
+import ProductUser from './pages/ProductUser'
+import DashboardUser from './pages/DashboardUser'
+
 
 function App() {
 
   return (
       <Routes>
         <Route element={<MainLayout />} >
+        <Route path="/signin" element={<SignIn /> } />
         <Route path="/" element={<Dashboard /> } />
         <Route path="/penjualan" element={<SalesManagement /> } />
-        <Route path="/signin" element={<SignIn /> } />
         <Route path="/signup" element={<SignUp /> } />
         <Route path="/produk" element={<ProductGridView /> } />
         <Route path="/customer" element={<CustomerManagement /> } />
-        <Route path="/faq" element={<FAQ /> } />
+        <Route path="/faq" element={<FAQAdmin /> } />
         <Route path="/member" element={<MemberStatus /> } />
         <Route path="/contact" element={<ContactManagement /> } />
         <Route path="/order" element={<OrderManagement /> } />
@@ -41,13 +45,16 @@ function App() {
         <Route path="/case" element={<CaseManagement /> } />
         <Route path="/loyalty" element={<LoyaltyManagement /> } />
         <Route path="/user" element={<User /> } />
-
         <Route path="/emailCamp" element={<EmailCampaign /> } />
         </Route>
         <Route element={<UserLayout />} >
-        <Route path="/halaman" element={<Halaman /> } />
+        <Route path="/dashboarduser" element={<DashboardUser /> } />
+        <Route path="/produkuser" element={<ProductUser /> } />
+        <Route path="/feedback" element={<FeedbackUser /> } />
+        <Route path="/faquser" element={<FAQUser /> } />
         </Route>
       </Routes>
+      
   )
 }
 

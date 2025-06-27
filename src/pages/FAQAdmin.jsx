@@ -1,22 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { supabase } from "../supabase";
 
-export default function FAQ() {
-  const [faqData, setFaqData] = useState([
-    {
-      question: "Apa itu Buttonscarves?",
-      answer:
-        "Buttonscarves adalah brand fashion modest yang menawarkan koleksi hijab, pakaian, dan aksesoris premium dengan desain elegan dan berkualitas tinggi.",
-    },
-    {
-      question: "Bagaimana cara memesan produk Buttonscarves?",
-      answer:
-        "Anda dapat memesan produk melalui website resmi kami di www.buttonscarves.com atau melalui aplikasi resmi Buttonscarves di perangkat mobile Anda.",
-    },
-  ]);
-
-  const [openIndex, setOpenIndex] = useState(null);
+export default function FAQAdmin() {
+  const [faqData, setFaqData] = useState([]);
   const [newFAQ, setNewFAQ] = useState({ question: "", answer: "" });
   const [editIndex, setEditIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  useEffect(() => {
+    fetchFAQ();
+
+    const interval = setInterval(() => {
+      fetchFAQ();
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchFAQ = async () => {
+    const { data, error } = await supabase
+      .from("faq")
+      .select("*")
+      .order("id", { ascending: true });
+
+    if (error) {
+      console.error(error);
+    } else {
+      setFaqData(data);
+    }
+  };
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -26,31 +38,66 @@ export default function FAQ() {
     setNewFAQ({ ...newFAQ, [e.target.name]: e.target.value });
   };
 
-  const handleAdd = () => {
-    if (newFAQ.question && newFAQ.answer) {
-      setFaqData([...faqData, newFAQ]);
+  const handleAdd = async () => {
+    if (!newFAQ.question || !newFAQ.answer) {
+      alert("Pertanyaan dan Jawaban wajib diisi.");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("faq")
+      .insert([newFAQ]);
+
+    if (error) {
+      console.error(error);
+      alert("Gagal menyimpan FAQ.");
+    } else {
       setNewFAQ({ question: "", answer: "" });
+      fetchFAQ();
     }
   };
 
-  const handleDelete = (index) => {
-    const updated = faqData.filter((_, i) => i !== index);
-    setFaqData(updated);
-    if (openIndex === index) setOpenIndex(null);
+  const handleDelete = async (index) => {
+    const idToDelete = faqData[index].id;
+
+    const { error } = await supabase
+      .from("faq")
+      .delete()
+      .eq("id", idToDelete);
+
+    if (error) {
+      console.error(error);
+      alert("Gagal menghapus FAQ.");
+    } else {
+      fetchFAQ();
+    }
   };
 
   const handleEdit = (index) => {
     setEditIndex(index);
-    setNewFAQ(faqData[index]);
+    setNewFAQ({
+      question: faqData[index].question,
+      answer: faqData[index].answer,
+    });
   };
 
-  const handleUpdate = () => {
-    const updated = [...faqData];
-    updated[editIndex] = newFAQ;
-    setFaqData(updated);
-    setNewFAQ({ question: "", answer: "" });
-    setEditIndex(null);
-    setOpenIndex(null);
+  const handleUpdate = async () => {
+    const idToUpdate = faqData[editIndex].id;
+
+    const { error } = await supabase
+      .from("faq")
+      .update(newFAQ)
+      .eq("id", idToUpdate);
+
+    if (error) {
+      console.error(error);
+      alert("Gagal mengupdate FAQ.");
+    } else {
+      setNewFAQ({ question: "", answer: "" });
+      setEditIndex(null);
+      fetchFAQ();
+      setOpenIndex(null);
+    }
   };
 
   return (
@@ -89,7 +136,7 @@ export default function FAQ() {
         <div className="space-y-4">
           {faqData.map((item, index) => (
             <div
-              key={index}
+              key={item.id}
               className="border border-[#e0cfc1] rounded-2xl bg-white shadow-md overflow-hidden"
             >
               <button
@@ -102,7 +149,7 @@ export default function FAQ() {
                 </span>
               </button>
               {openIndex === index && (
-                <div className="px-6 pb-4 pt-2 text-[#5A3E36] bg-white animate-fadeIn">
+                <div className="px-6 pb-4 pt-2 text-[#5A3E36] bg-white">
                   <p>{item.answer}</p>
                   <div className="flex gap-2 mt-3">
                     <button

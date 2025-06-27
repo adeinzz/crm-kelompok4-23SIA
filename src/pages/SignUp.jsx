@@ -1,21 +1,44 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { supabase } from '../supabase'
 
 const SignUp = () => {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirm, setConfirm] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (password !== confirm) {
       setError('Password tidak sama!')
       return
     }
 
-    // Simulasi penyimpanan user
+    // Simpan ke tabel Supabase register
+    const { data, error: insertError } = await supabase
+      .from('register')
+      .insert([
+        {
+          name,
+          phone,
+          email,
+          password
+        }
+      ])
+
+    if (insertError) {
+      console.error(insertError)
+      setError('Gagal menyimpan ke database.')
+      return
+    }
+
+    // Simulasi penyimpanan lokal (optional)
+    localStorage.setItem('userName', name)
+    localStorage.setItem('userPhone', phone)
     localStorage.setItem('userEmail', email)
     localStorage.setItem('userPassword', password)
     localStorage.setItem('isLoggedIn', 'true')
@@ -35,6 +58,35 @@ const SignUp = () => {
           <div className="mb-4 text-red-500 text-sm text-center">{error}</div>
         )}
 
+        {/* Nama */}
+        <div className="mb-6">
+          <label className="block text-xs tracking-widest uppercase text-gray-700 mb-2">
+            Nama Lengkap
+          </label>
+          <input
+            type="text"
+            className="w-full px-3 py-2 border border-gray-300 rounded-sm focus:outline-none"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* No HP */}
+        <div className="mb-6">
+          <label className="block text-xs tracking-widest uppercase text-gray-700 mb-2">
+            No. HP
+          </label>
+          <input
+            type="text"
+            className="w-full px-3 py-2 border border-gray-300 rounded-sm focus:outline-none"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+        </div>
+
+        {/* Email */}
         <div className="mb-6">
           <label className="block text-xs tracking-widest uppercase text-gray-700 mb-2">
             Email
@@ -45,10 +97,10 @@ const SignUp = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            autoFocus
           />
         </div>
 
+        {/* Password */}
         <div className="mb-6">
           <label className="block text-xs tracking-widest uppercase text-gray-700 mb-2">
             Password
@@ -62,6 +114,7 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Confirm Password */}
         <div className="mb-6">
           <label className="block text-xs tracking-widest uppercase text-gray-700 mb-2">
             Confirm Password

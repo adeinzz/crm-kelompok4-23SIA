@@ -15,13 +15,15 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 
 const menuItems = [
-  { name: 'Halaman', icon: <User />, path: '/halaman' },
+  { name: 'Dashboard', icon: <User />, path: '/dashboarduser' },
+  { name: 'Produk', icon: <User />, path: '/produkuser' },
+  { name: 'Feedback', icon: <User />, path: '/feedback' },
    
 ];
 
 const accountItems = [
   { name: 'Status Member', icon: <Settings />, path: '/member' },
-  { name: 'FAQ', icon: <Settings />, path: '/faq' },
+  { name: 'FAQ', icon: <Settings />, path: '/faquser' },
   { name: 'Pengaturan Akun', icon: <Settings />, path: '/akun' },
 ];
 
