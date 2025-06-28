@@ -1,4 +1,5 @@
 import { Search, User } from 'lucide-react'
+import { BsPeople } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 
 const HeaderUser = () => {
@@ -26,6 +27,13 @@ const HeaderUser = () => {
         >
           <User className="w-4 h-4" />
           Sign In
+        </Link>
+        <Link
+          to="/profile"
+          className="flex items-center gap-2 text-sm cursor-pointer text-[#5A3E36] hover:text-[#B38E66] transition-colors"
+        >
+          <BsPeople className="w-4 h-4" />
+          Profile
         </Link>
       </div>
     </header>

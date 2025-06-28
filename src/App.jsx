@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom'
 import MainLayout from './components/MainLayout'
 import UserLayout from './components/UserLayout'
 import SignIn from './pages/SignIn'
@@ -20,11 +20,35 @@ import FAQUser from './pages/FAQUser'
 import FAQAdmin from './pages/FAQAdmin'
 import ProductUser from './pages/ProductUser'
 import DashboardUser from './pages/DashboardUser'
+import SidebarUser from './components/SidebarUser'
+import HeaderUser from './components/HeaderUser'
+import ProfileUser from './pages/ProfileUser'
+
 
 function App() {
   const location = useLocation();
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const role = localStorage.getItem('role');
+  const UserLayout = () => {
+  return (
+    <div className="flex">
+      {/* Sidebar tetap fixed di kiri */}
+      <SidebarUser />
+
+      {/* Konten (geser ke kanan 64 unit) */}
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
+        {/* HEADER */}
+        <HeaderUser />
+
+        {/* CONTENT */}
+        <main className="flex-1 p-6 bg-[#fffaf5]">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
 
   // Allow /signin and /signup always
   if (
@@ -72,6 +96,7 @@ function App() {
           <Route path="/produkuser" element={<ProductUser />} />
           <Route path="/feedback" element={<FeedbackUser />} />
           <Route path="/faquser" element={<FAQUser />} />
+          <Route path="/profile" element={<ProfileUser />} />
         </Route>
       )}
     </Routes>

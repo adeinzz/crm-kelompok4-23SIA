@@ -18,7 +18,6 @@ export default function LoyaltyManagement() {
       return;
     }
 
-    // Group orders by customername
     const totals = {};
     data.forEach((row) => {
       if (!totals[row.customername]) {
@@ -39,6 +38,22 @@ export default function LoyaltyManagement() {
     });
 
     setCustomers(customersArr);
+
+    // Save or update to Supabase loyalty table
+    for (const customer of customersArr) {
+      const email = generateEmail(customer.name);
+      await supabase
+        .from("loyalty")
+        .upsert(
+          {
+            user_email: email,
+            tier: customer.loyalty,
+            points: customer.points,
+            total_belanja: customer.totalBelanja,
+          },
+          { onConflict: ["user_email"] }
+        );
+    }
   };
 
   const getLoyaltyLevel = (total) => {
@@ -46,6 +61,10 @@ export default function LoyaltyManagement() {
     if (total >= 3000000) return "Gold";
     if (total >= 1000000) return "Silver";
     return "Bronze";
+  };
+
+  const generateEmail = (name) => {
+    return name.toLowerCase().replace(/\s+/g, ".") + "@example.com";
   };
 
   return (
@@ -58,10 +77,18 @@ export default function LoyaltyManagement() {
         <table className="min-w-full divide-y divide-[#e0cfc1]">
           <thead className="bg-[#fdf7f2]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-[#5A3E36] uppercase">Nama</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-[#5A3E36] uppercase">Total Belanja</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-[#5A3E36] uppercase">Poin</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-[#5A3E36] uppercase">Loyalty</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-[#5A3E36] uppercase">
+                Nama
+              </th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-[#5A3E36] uppercase">
+                Total Belanja
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-[#5A3E36] uppercase">
+                Poin
+              </th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-[#5A3E36] uppercase">
+                Loyalty
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#f3e8dd]">
@@ -79,7 +106,10 @@ export default function LoyaltyManagement() {
             ))}
             {customers.length === 0 && (
               <tr>
-                <td colSpan="4" className="text-center py-4 text-[#B38E66] italic">
+                <td
+                  colSpan="4"
+                  className="text-center py-4 text-[#B38E66] italic"
+                >
                   Belum ada data loyalty.
                 </td>
               </tr>
