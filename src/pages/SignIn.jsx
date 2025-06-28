@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { supabase } from '../supabase';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -7,18 +8,46 @@ const SignIn = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    const checkUser = async () => {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const role = localStorage.getItem('role');
+      const userEmail = localStorage.getItem('userEmail');
+      const userPassword = localStorage.getItem('userPassword');
+
+      if (isLoggedIn && role === 'user') {
+        // cek ulang ke Supabase
+        const { data, error } = await supabase
+          .from('register')
+          .select('*')
+          .eq('email', userEmail)
+          .eq('password', userPassword)
+          .single();
+
+        if (data && !error) {
+          navigate('/dashboarduser');
+        } else {
+          // kalau tidak ada di Supabase, paksa logout
+          localStorage.removeItem('isLoggedIn');
+          localStorage.removeItem('role');
+          localStorage.removeItem('userEmail');
+          localStorage.removeItem('userPassword');
+        }
+      } else if (isLoggedIn && role === 'admin') {
+        navigate('/');
+      }
+    };
+
+    checkUser();
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // admin email
+    // admin login
     const adminEmail = 'admin@buttonscarves.com';
     const adminPassword = 'admin123';
 
-    // user biasa
-    const storedEmail = localStorage.getItem('userEmail');
-    const storedPassword = localStorage.getItem('userPassword');
-
-    // cek admin
     if (email === adminEmail && password === adminPassword) {
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('role', 'admin');
@@ -26,15 +55,26 @@ const SignIn = () => {
       return;
     }
 
-    // cek user biasa
-    if (email === storedEmail && password === storedPassword) {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('role', 'user');
-      navigate('/dashboarduser');
+    // cek ke Supabase untuk user biasa
+    const { data, error: queryError } = await supabase
+      .from('register')
+      .select('*')
+      .eq('email', email)
+      .eq('password', password)
+      .single();
+
+    if (queryError || !data) {
+      setError('Email atau password salah, atau belum terdaftar.');
       return;
     }
 
-    setError('Email atau password salah!');
+    // simpan data user ke localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('role', 'user');
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userPassword', password);
+
+    navigate('/dashboarduser');
   };
 
   return (
