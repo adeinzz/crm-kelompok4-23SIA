@@ -130,14 +130,14 @@ const DashboardUser = () => {
 </section>
 
 
-      {/* Follow Us */}
+       {/* Follow Us */}
       <section className="text-center mt-16 text-[#5A3E36]">
         <h2 className="text-lg font-bold mb-4">Follow Us</h2>
         <div className="flex justify-center space-x-6 text-2xl">
-          <a href="#"><FaInstagram /></a>
-          <a href="#"><FaFacebook /></a>
-          <a href="#"><FaTiktok /></a>
-          <a href="#"><FaYoutube /></a>
+          <a href="https://www.instagram.com/accounts/login/?next=%2Fbuttonscarves%2F&source=omni_redirect"><FaInstagram /></a>
+          <a href="https://www.facebook.com/buttonscarves.id/"><FaFacebook /></a>
+          <a href="https://www.tiktok.com/@buttonscarves?lang=en"><FaTiktok /></a>
+          <a href="https://www.youtube.com/channel/UCy95k5CvLlizRHgeKXBhlzQ"><FaYoutube /></a>
         </div>
       </section>
     </div>
