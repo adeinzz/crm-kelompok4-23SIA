@@ -25,7 +25,7 @@ const DashboardUser = () => {
       {/* Banner */}
       <div className="relative w-full h-64 md:h-80 overflow-hidden">
         <img
-          src="src/assets/Banner.png"
+          src="https://www.buttonscarves.com/cdn/shop/files/Desktop_Collection_Page_Typograph_Square.png?v=1749443498&width=1920"
           alt="Banner Promo"
           className="w-full h-full object-cover"
         />
