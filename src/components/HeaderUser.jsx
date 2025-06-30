@@ -1,5 +1,6 @@
-import { Search, User } from 'lucide-react'
+import { LogIn, Search, User } from 'lucide-react'
 import { BsPeople } from 'react-icons/bs'
+import { CgProfile } from 'react-icons/cg'
 import { Link } from 'react-router-dom'
 
 const HeaderUser = () => {
@@ -25,14 +26,14 @@ const HeaderUser = () => {
           to="/signin"
           className="flex items-center gap-2 text-sm cursor-pointer text-[#5A3E36] hover:text-[#B38E66] transition-colors"
         >
-          <User className="w-4 h-4" />
+          <LogIn className="w-4 h-4" />
           Sign In
         </Link>
         <Link
           to="/profile"
           className="flex items-center gap-2 text-sm cursor-pointer text-[#5A3E36] hover:text-[#B38E66] transition-colors"
         >
-          <BsPeople className="w-4 h-4" />
+          <CgProfile className="w-4 h-4" />
           Profile
         </Link>
       </div>

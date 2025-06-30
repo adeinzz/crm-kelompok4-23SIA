@@ -1,16 +1,18 @@
 import { User, Settings, LogOut, ListOrderedIcon } from 'lucide-react';
+import { AiFillProduct } from 'react-icons/ai';
+import { BsQuestion, BsQuestionDiamondFill } from 'react-icons/bs';
+import { FcFeedback } from 'react-icons/fc';
+import { GrDashboard } from 'react-icons/gr';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const menuItems = [
-  { name: 'Dashboard', icon: <User size={20} />, path: '/dashboarduser' },
-  { name: 'Produk', icon: <User size={20} />, path: '/produkuser' },
-  { name: 'Feedback', icon: <User size={20} />, path: '/feedback' },
+  { name: 'Dashboard', icon: <GrDashboard size={20} />, path: '/dashboarduser' },
+  { name: 'Produk', icon: <AiFillProduct size={20} />, path: '/produkuser' },
+  { name: 'Feedback', icon: <FcFeedback size={20} />, path: '/feedback' },
 ];
 
 const accountItems = [
-  { name: 'Status Member', icon: <Settings size={20} />, path: '/member' },
-  { name: 'FAQ', icon: <Settings size={20} />, path: '/faquser' },
-  { name: 'Pengaturan Akun', icon: <Settings size={20} />, path: '/akun' },
+  { name: 'FAQ', icon: <BsQuestionDiamondFill size={20} />, path: '/faquser' },
   { name: 'Logout', icon: <LogOut size={20} />, action: 'logout' },
 ];
 
