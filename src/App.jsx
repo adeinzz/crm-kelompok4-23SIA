@@ -23,6 +23,7 @@ import DashboardUser from './pages/DashboardUser'
 import SidebarUser from './components/SidebarUser'
 import HeaderUser from './components/HeaderUser'
 import ProfileUser from './pages/ProfileUser'
+import EmailCampaignUser from './pages/EmailCampaignUser'
 
 
 function App() {
@@ -97,6 +98,7 @@ function App() {
           <Route path="/feedback" element={<FeedbackUser />} />
           <Route path="/faquser" element={<FAQUser />} />
           <Route path="/profile" element={<ProfileUser />} />
+          <Route path="/email" element={<EmailCampaignUser />} />
         </Route>
       )}
     </Routes>

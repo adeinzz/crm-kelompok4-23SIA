@@ -3,6 +3,7 @@ import { AiFillProduct } from 'react-icons/ai';
 import { BsQuestion, BsQuestionDiamondFill } from 'react-icons/bs';
 import { FcFeedback } from 'react-icons/fc';
 import { GrDashboard } from 'react-icons/gr';
+import { MdEmail } from 'react-icons/md';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const menuItems = [
@@ -13,6 +14,7 @@ const menuItems = [
 
 const accountItems = [
   { name: 'FAQ', icon: <BsQuestionDiamondFill size={20} />, path: '/faquser' },
+  { name: 'Email Campaign', icon: <MdEmail size={20} />, path: '/email' },
   { name: 'Logout', icon: <LogOut size={20} />, action: 'logout' },
 ];
 
