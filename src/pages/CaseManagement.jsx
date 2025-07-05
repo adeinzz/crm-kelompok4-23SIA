@@ -85,6 +85,22 @@ export default function CaseManagement() {
     }
   }
 
+  const handleDeleteCase = async (id) => {
+    const konfirmasi = confirm('Yakin ingin menghapus data ini?')
+    if (!konfirmasi) return
+
+    const { error } = await supabase
+      .from('cases')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      console.error('Gagal menghapus case:', error)
+    } else {
+      fetchCases()
+    }
+  }
+
   return (
     <div className="p-6 max-w-10xl mx-auto text-[#5A3E36] font-sans bg-[#fffaf5] min-h-screen">
       <h1 className="text-3xl font-extrabold mb-6 text-center text-[#B38E66]">
@@ -133,14 +149,22 @@ export default function CaseManagement() {
                 </td>
                 <td className="py-4 px-5">{getStatusBadge(c.status)}</td>
                 <td className="py-4 px-5 text-center">
-                  {c.status !== 'selesai' && (
+                  <div className="flex flex-col gap-2 items-center">
+                    {c.status !== 'selesai' && (
+                      <button
+                        onClick={() => handleSelectCase(c)}
+                        className="flex items-center justify-center gap-1 text-[#A0522D] hover:text-[#7c5030] transition text-sm font-semibold"
+                      >
+                        <MessageCircleReply size={16} /> Balas
+                      </button>
+                    )}
                     <button
-                      onClick={() => handleSelectCase(c)}
-                      className="flex items-center justify-center gap-1 text-[#A0522D] hover:text-[#7c5030] transition text-sm font-semibold"
+                      onClick={() => handleDeleteCase(c.id)}
+                      className="flex items-center justify-center gap-1 text-red-600 hover:text-red-800 transition text-sm font-semibold"
                     >
-                      <MessageCircleReply size={16} /> Balas
+                      <XCircle size={16} /> Hapus
                     </button>
-                  )}
+                  </div>
                 </td>
               </tr>
             ))}
