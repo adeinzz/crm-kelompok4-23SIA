@@ -3,7 +3,7 @@ import { supabase } from "../supabase";
 
 const ProfileUser = () => {
   const [loyaltyData, setLoyaltyData] = useState(null);
-  const userEmail = "nabila.putri@example.com";
+  const userEmail = "putri@gmail.com";
 
   useEffect(() => {
     fetchLoyaltyFromOrders();
@@ -14,7 +14,7 @@ const ProfileUser = () => {
     const { data, error } = await supabase
       .from("orders")
       .select("customername, total")
-      .eq("customername", "Zahra Putri");
+      .eq("customername", "Putri");
 
     if (error) {
       console.error("Error fetching orders:", error);
@@ -56,7 +56,7 @@ const ProfileUser = () => {
         <h2 className="text-xl font-bold mb-4 text-[#5A3E36]">Informasi Pribadi</h2>
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div className="font-semibold">Nama:</div>
-          <div>Nabila Putri</div>
+          <div>Putri</div>
 
           <div className="font-semibold">Email:</div>
           <div>{userEmail}</div>
