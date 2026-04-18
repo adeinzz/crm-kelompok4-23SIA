@@ -45,7 +45,7 @@ const SignIn = () => {
     e.preventDefault();
 
     // admin login
-    const adminEmail = 'admin@buttonscarves.com';
+    const adminEmail = 'admin@buja.com';
     const adminPassword = 'admin123';
 
     if (email === adminEmail && password === adminPassword) {
